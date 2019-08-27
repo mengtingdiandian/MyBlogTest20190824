@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model List<MyBlogTestModels.BlogCommentEntity>
+@{Layout = null;}
+@inject UserManager<IdentityUser> UserManager
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<div style="padding:10px;">
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th>评论时间</th>
+                <th>评论内容</th>
+                <th>评论人</th>
+                <th>管理</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">         
+            <a href="/BlogComment/Add?sBlogID=@Model.First().BlogID"><i class="layui-icon">&#xe642;</i> 新增</a>
+            @foreach (var blogcomment in Model.ToList())
+            {
+                <tr>
+                    <td>@blogcomment.CreatedTime</td>
+                    <td>@blogcomment.BCContent</td>
+                    <td>@blogcomment.CommentBy</td>
+                    <td>
+                        @if (blogcomment.CreatedBy == @UserManager.GetUserId(User)&& @UserManager.GetUserId(User)!=null)
+                        {
+                            <a href="/BlogComment/Update?sBCID=@blogcomment.BCID"><i class="layui-icon">&#xe642;</i> 编辑</a>
+                            <a href="javascript:void(0);" onclick="del('@blogcomment.BCID')"><i class="layui-icon">&#x1006;</i> 删除</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="~/layui/layui.js"></script>
+<script>
+    /*删除*/
+    function del(id) {
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            var $ = layui.jquery;
+            layer.confirm('是否确认删除？', function () {
+                var url = "/BlogComment/Del?sBCID=" + id;
+                $.post(url, function (data) {
+                    layer.alert(data, function () { location.reload(); });
+                })
+            })
+        })
+    }
+</script>

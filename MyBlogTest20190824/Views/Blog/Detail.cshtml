@@ -1,0 +1,25 @@
+﻿@model MyBlogTestModels.BlogEntity
+<blockquote class="layui-elem-quote">文章信息</blockquote>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<div style="padding:10px;">
+    <form name="form1" class="layui-form" method="post" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-block">
+                @Html.TextBoxFor(a => a.BlogTitle, new { @class = "layui-input" })
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">内容</label>
+            <div class="layui-input-block">
+                @Html.TextAreaFor(a => a.BlogContent, new { @class = "layui-textarea" })
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">评论</label>
+            <div class="layui-input-block">
+                <iframe  class="layui-table" src="/BlogComment?sBlogID=@Model.BlogID"> </iframe>
+            </div>
+        </div>
+    </form>
+</div>

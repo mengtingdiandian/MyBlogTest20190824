@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model MyBlogTestModels.BlogCommentEntity
+@{Layout = null;}
+@inject UserManager<IdentityUser> UserManager
+<blockquote class="layui-elem-quote">修改评论</blockquote>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<div style="padding:10px;">
+    <form name="form1" class="layui-form" method="post" action="">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">评论内容</label>
+            <div class="layui-input-block">
+                @Html.TextAreaFor(a => a.BCContent, new { @class = "layui-textarea" })
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="submit">立即提交</button>
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(a => a.CreatedTime)
+                @Html.HiddenFor(a => a.CreatedBy, UserManager.GetUserId(User))
+                @Html.HiddenFor(a => a.BlogID)
+                @Html.HiddenFor(a => a.BCID)
+            </div>
+        </div>
+    </form>
+</div>
